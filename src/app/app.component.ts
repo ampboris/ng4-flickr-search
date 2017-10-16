@@ -1,24 +1,31 @@
+import { Component, OnDestroy } from '@angular/core';
 import { ApiService } from './services/api.service';
-import { Component } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   title = 'app';
   searchTerm = '';
   items: any[];
   loading = false;
+  searchSub: Subscription;
 
   constructor(private api: ApiService) {
   }
+
+  ngOnDestroy() {
+    this.searchSub.unsubscribe();
+  }
+
   search(event: Event) {
     console.log('received change event:', event);
     if ( this.searchTerm.length < 3 ) { return; }
     this.loading = true;
-    this.api.searchFlickr(this.searchTerm).subscribe(
+    this.searchSub = this.api.searchFlickr(this.searchTerm).subscribe(
       (resp) => {
         this.loading = false;
         try {
