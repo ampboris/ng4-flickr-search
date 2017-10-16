@@ -2,16 +2,29 @@ import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
+import { FooterComponent } from './components/footer/footer.component';
+import { ApiService } from './services/api.service';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        FormsModule,
+        HttpModule,
+        HttpClientModule,
+        JsonpModule
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        FooterComponent
       ],
+      providers: [
+        ApiService
+      ]
     }).compileComponents();
   }));
 
@@ -27,10 +40,11 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('app');
   }));
 
-  it('should render title in a h1 tag', async(() => {
+  it('should render title in a navbar-brand class', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!');
+    console.log(compiled.querySelector('.navbar-brand'));
+    expect(compiled.querySelector('.navbar-brand').textContent).toContain('Angular 4 - Flickr Search');
   }));
 });
