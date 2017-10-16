@@ -1,0 +1,36 @@
+<nav class="navbar navbar-static-top navbar-inverse">
+    <div class="container-fluid ">
+        <div class="navbar-header ">
+            <a class="navbar-brand " href="https://github.com/ampboris/ng4-flickr-search">
+                <i class="fa fa-github" aria-hidden="true"></i> Angular 4 - Flickr Search
+            </a>
+        </div>
+
+        <div class="navbar-form navbar-left ">
+            <div class="form-group ">
+                <input [(ngModel)]="searchTerm " (keyup)="keyup($event) " size="50 " type="text " class="form-control " placeholder="Type in 3 or more letters to start a search " autofocus>
+            </div>
+        </div>
+    </div>
+</nav>
+<div masonry masonry-options="{ columnWidth: '.masonry-brick', 'gutter': 0 } " class="row masonry-container ">
+    <div class="col-md-3 col-sm-6 masonry-brick " *ngFor="let item of items ">
+        <div class="thumbnail ">
+            <a href="{{item.link}} " target="_blank ">
+                <img class="img-responsive " [src]='item.media.m' alt="{{item.title}} ">
+            </a>
+            <a href="{{item.link}} " title="{{item.title}} " target="_blank ">
+                <h3 class="truncate ">{{item.title}}</h3>
+            </a>
+            <i>{{item.author}}</i>
+            <div>
+                <span class="tag tag-info {{tag.isSearchTerm ? 'is-search-term' : ''}} " *ngFor="let tag of item.tags ">
+                                {{tag.value}}
+                        </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="loading " *ngIf="loading ">Loading&#8230;</div>
+<app-footer></app-footer>
