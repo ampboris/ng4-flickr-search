@@ -1,20 +1,18 @@
-import { HttpClient } from '@angular/common/http';
-import { Jsonp, Http } from '@angular/http';
+import { Jsonp } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
+import * as config from '../config';
 
-const FLICKR_SEARCH_URL =
-        'https://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=JSONP_CALLBACK&tagmode=all&tags=';
+// const FLICKR_SEARCH_URL =
+//         'https://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=JSONP_CALLBACK&tagmode=all&tags=';
 @Injectable()
 export class ApiService {
-
+  FLICKR_SEARCH_URL = config.default.FLICKR_SEARCH_URL;
   constructor(
-    private http: HttpClient,
-    private _jsonp: Jsonp,
-    private _http: Http) { }
+    private _jsonp: Jsonp) { }
 
   /****
    * It's kind of disaster, I think this is an easy call. But endup, I spend 2 hours on this.
@@ -28,11 +26,14 @@ export class ApiService {
    */
   searchFlickr(queryString: string): Observable<any> {
     return this._jsonp
-      .get(`${FLICKR_SEARCH_URL}${queryString}`)
-      .catch(this._handleError);
+      .get(`${this.FLICKR_SEARCH_URL}${queryString}`)
+      .catch( (e: any) => {
+        return this._handleError(e);
+      });
   }
 
-  private _handleError(err: Response | any) {
+  private _handleError(err: any) {
+    console.log('_handleError');
     const errorMsg = err.message || 'Error: Unable to complete request.';
     return Observable.throw(errorMsg);
   }

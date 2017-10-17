@@ -43,7 +43,7 @@ export class MockApiService {
             author: 'Flickr lover',
             link: '#',
             media: { 'm': '' },
-            tags: 'test fun'
+            tags: 'hasOneValidItem fun'
           }
         ]
       },

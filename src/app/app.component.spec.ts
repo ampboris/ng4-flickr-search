@@ -60,7 +60,7 @@ describe('AppComponent', () => {
   it('should render title in a navbar-brand class', async(() => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    console.log(compiled.querySelector('.navbar-brand'));
+    // console.log(compiled.querySelector('.navbar-brand'));
     expect(compiled.querySelector('.navbar-brand').textContent).toContain('Angular 4 - Flickr Search');
   }));
 
@@ -96,7 +96,6 @@ describe('AppComponent', () => {
       app.searchTerm = key;
       app.search();
       if (mock.mockData[key].error) {
-        console.log(key);
         errorCount = errorCount + 1;
       }
       expect(app.items).not.toBeNull();

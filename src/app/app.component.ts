@@ -18,7 +18,9 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.searchSub.unsubscribe();
+    if (this.searchSub) {
+      this.searchSub.unsubscribe();
+    }
   }
 
   search() {
@@ -28,7 +30,7 @@ export class AppComponent implements OnDestroy {
       (resp) => {
         this.loading = false;
         try {
-          console.log(resp);
+          // console.log(resp);
           // data availability check
           if (resp && resp._body && resp._body.items && resp._body.items.length > 0) {
             this.items = resp._body.items;
@@ -65,7 +67,7 @@ export class AppComponent implements OnDestroy {
     }];
   }
   keyup(event: any) {
-    console.log('keyup event:', event);
+    // console.log('keyup event:', event);
     if (event.which === 13) {
       event.preventDefault();
       this.search();
