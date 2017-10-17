@@ -1,5 +1,5 @@
 import { By } from '@angular/platform-browser';
-import { TestBed, async } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
@@ -10,6 +10,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpModule, JsonpModule } from '@angular/http';
 
 describe('AppComponent', () => {
+  let fixture: ComponentFixture<AppComponent>;
+  let app: AppComponent;
+
+  function generateEvent(eventName: string, key: string, keyCode: number): any {
+      // create event object as input
+      const event: any = document.createEvent('CustomEvent');
+      event.key = key;
+      event.keyCode = keyCode;
+      event.which = keyCode;
+      event.initEvent(eventName, true, true);
+      return event;
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -29,20 +42,21 @@ describe('AppComponent', () => {
     }).compileComponents();
   }));
 
+  beforeEach(() =>{
+    fixture = TestBed.createComponent(AppComponent);
+    app = fixture.debugElement.componentInstance;
+  });
+
+
   it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
 
   it(`should have as title 'app'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('app');
   }));
 
   it('should render title in a navbar-brand class', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     console.log(compiled.querySelector('.navbar-brand'));
@@ -50,48 +64,20 @@ describe('AppComponent', () => {
   }));
 
   it('should call keyup function when fire keyup event', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const comp = fixture.componentInstance;
-    const keyupSpy = spyOn(comp, 'keyup');
-    const searchSpy = spyOn(comp, 'search').and.callThrough();
-
-    let searchInput:  HTMLInputElement;
-    searchInput = fixture.debugElement.query(By.css('input')).nativeElement;
-    console.log(searchInput);
-
-    // searchInput.value = 'apple';
-    searchInput.dispatchEvent(new Event('input'));
-    comp.searchTerm = 'apple';
-    // Tell Angular to update the output span through the title pipe
-    fixture.detectChanges();
-    console.log('comp.searchTerm:', comp.searchTerm);
-    console.log('comp.searchTerm:', searchInput.value);
-    // const keyupEvent = new KeyboardEvent('keyup', {
-    //   key: 'Enter'
-    // });
-    const keyupEvent: any = document.createEvent('CustomEvent');
-    keyupEvent.key = 'Enter';
-    keyupEvent.keyCode = 13;
-    keyupEvent.which = 13;
-    keyupEvent.initEvent('keyup', true, true);
-    document.dispatchEvent(keyupEvent);
-    console.log('keyupEvent', keyupEvent);
+    const keyupSpy = spyOn(app, 'keyup');
+    // dispatch keyup event from the element
+    const searchInput:  HTMLInputElement = fixture.debugElement.query(By.css('input')).nativeElement;
+    const keyupEvent: any = generateEvent('keyup', 'Enter', 13);
     searchInput.dispatchEvent(keyupEvent);
-    fixture.detectChanges();
 
     expect(keyupSpy).toHaveBeenCalled();
   }));
-  it('should call search when keyup function is called with keycode 13', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const comp = fixture.componentInstance;
-    const searchSpy = spyOn(comp, 'search').and.callThrough();
-    const keyupEvent: any = document.createEvent('CustomEvent');
-    keyupEvent.key = 'Enter';
-    keyupEvent.keyCode = 13;
-    keyupEvent.which = 13;
-    keyupEvent.initEvent('keyup', true, true);
 
-    comp.keyup(keyupEvent);
+  it('should call search when keyup function is called with keycode 13', async(() => {
+    const searchSpy = spyOn(app, 'search').and.callThrough();
+    // create event object as input
+    const keyupEvent: any = generateEvent('keyup', 'Enter', 13);
+    app.keyup(keyupEvent);
 
     expect(searchSpy).toHaveBeenCalled();
   }));
