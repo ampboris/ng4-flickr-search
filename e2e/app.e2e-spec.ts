@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('ng4-express-base App', () => {
+describe('ng4-flickr-search App', () => {
   let page: AppPage;
 
   beforeEach(() => {

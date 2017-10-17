@@ -2,7 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2.
 
-`ng n ng4-express-base --routing --style scss`
+`ng n ng4-flickr-search --routing --style scss`
 
 ## Steps to run
 
