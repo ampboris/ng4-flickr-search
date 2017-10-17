@@ -1,3 +1,4 @@
+import { MockApiService } from './services/mock-api.service';
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -37,12 +38,12 @@ describe('AppComponent', () => {
         FooterComponent
       ],
       providers: [
-        ApiService
+        { provide: ApiService, useClass: MockApiService }
       ]
     }).compileComponents();
   }));
 
-  beforeEach(() =>{
+  beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.debugElement.componentInstance;
   });
@@ -78,7 +79,35 @@ describe('AppComponent', () => {
     // create event object as input
     const keyupEvent: any = generateEvent('keyup', 'Enter', 13);
     app.keyup(keyupEvent);
-
     expect(searchSpy).toHaveBeenCalled();
+  }));
+  it('should not call search when keyup function is called with keycode not 13', async(() => {
+    const searchSpy = spyOn(app, 'search').and.callThrough();
+    // create event object as input
+    const keyupEvent: any = generateEvent('keyup', 'Enter', 133);
+    app.keyup(keyupEvent);
+    expect(searchSpy).not.toHaveBeenCalled();
+  }));
+  it('should get data when searchTerm is longer than 3 letters', async(() => {
+    const handleErrorSpy = spyOn(app, 'handleError').and.callThrough();
+    const mock = new MockApiService();
+    let errorCount = 0;
+    Object.keys(mock.mockData).forEach((key, index) =>{
+      app.searchTerm = key;
+      app.search();
+      if (mock.mockData[key].error) {
+        console.log(key);
+        errorCount = errorCount + 1;
+      }
+      expect(app.items).not.toBeNull();
+      expect(app.items.length).toEqual(mock.mockData[key].itemCount);
+      expect(handleErrorSpy).toHaveBeenCalledTimes(errorCount);
+    });
+
+    app.searchTerm = 'error';
+    app.search();
+    expect(app.items).not.toBeNull();
+    expect(app.items.length).toEqual(1);
+    expect(handleErrorSpy).toHaveBeenCalledTimes(errorCount + 1);
   }));
 });

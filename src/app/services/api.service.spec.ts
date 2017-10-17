@@ -19,4 +19,8 @@ describe('ApiService', () => {
   it('should be created', inject([ApiService], (service: ApiService) => {
     expect(service).toBeTruthy();
   }));
+  it('should be searchFlickr without error', inject([ApiService], (service: ApiService) => {
+    service.searchFlickr('apple');
+    // TODO: implement this test
+  }));
 });

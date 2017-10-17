@@ -26,8 +26,7 @@ export class ApiService {
    * 2.2.2 - jsoncallback=JSONP_CALLBACK, jsonp return with no error, but failed when call .map(res => res.json)
    * Solution: not to use .map(res => res.json), parse http response in a traditional fashion in consumer side
    */
-  searchFlickr(queryString): Observable<any> {
-    console.log(queryString);
+  searchFlickr(queryString: string): Observable<any> {
     return this._jsonp
       .get(`${FLICKR_SEARCH_URL}${queryString}`)
       .catch(this._handleError);

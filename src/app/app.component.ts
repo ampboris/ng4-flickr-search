@@ -21,8 +21,7 @@ export class AppComponent implements OnDestroy {
     this.searchSub.unsubscribe();
   }
 
-  search(event: Event) {
-    console.log('received change event:', event);
+  search() {
     if ( this.searchTerm.length < 3 ) { return; }
     this.loading = true;
     this.searchSub = this.api.searchFlickr(this.searchTerm).subscribe(
@@ -69,7 +68,7 @@ export class AppComponent implements OnDestroy {
     console.log('keyup event:', event);
     if (event.which === 13) {
       event.preventDefault();
-      this.search(event);
+      this.search();
     } else {
       return;
     }
