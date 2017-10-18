@@ -36,3 +36,23 @@ Before running the tests make sure you are serving the app via `ng serve`.
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Setup/Run instance in EC2
+
+Create instance in EC2
+
+
+# SSH client - commands
+
+192-168-1-2:angular4 JWK$ chmod 400 ng4-test.pem
+192-168-1-2:angular4 JWK$ ssh -i "ng4-test.pem" 
+
+ubuntu@ip-172-31-3-45:~$ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+ubuntu@ip-172-31-3-45:~$ sudo apt-get install -y nodejs
+ubuntu@ip-172-31-3-45:~$ sudo apt-get install git
+ubuntu@ip-172-31-3-45:~$ git clone https://github.com/ampboris/ng4-flickr-search.git
+ubuntu@ip-172-31-3-45:~$ cd ng4-flickr-search
+ubuntu@ip-172-31-3-45:~/ng4-flickr-search$ npm install
+ubuntu@ip-172-31-3-45:~/ng4-flickr-search$ npm npm install node-sass
+ubuntu@ip-172-31-3-45:~/ng4-flickr-search$ npm run postinstall
+ubuntu@ip-172-31-3-45:~/ng4-flickr-search$ node server
