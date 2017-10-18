@@ -56,3 +56,25 @@ ubuntu@ip-172-31-3-45:~/ng4-flickr-search$ npm install
 ubuntu@ip-172-31-3-45:~/ng4-flickr-search$ npm npm install node-sass
 ubuntu@ip-172-31-3-45:~/ng4-flickr-search$ npm run postinstall
 ubuntu@ip-172-31-3-45:~/ng4-flickr-search$ node server
+
+ubuntu@ip-172-31-10-57:~$ sudo npm install pm2 -g
+ubuntu@ip-172-31-10-57:~/ng4-flickr-search$ pm2 start server.js
+
+Production Process Manager for Node.js apps
+                     with a built-in Load Balancer.
+
+
+                Start and Daemonize any application:
+                $ pm2 start app.js
+
+                Load Balance 4 instances of api.js:
+                $ pm2 start api.js -i 4
+
+                Monitor in production:
+                $ pm2 monitor
+
+                Make pm2 auto-boot at server restart:
+                $ pm2 startup
+
+                To go further checkout:
+                http://pm2.io
